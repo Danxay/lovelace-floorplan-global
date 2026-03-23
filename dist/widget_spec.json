@@ -1,0 +1,739 @@
+{
+  "groups": [
+    {
+      "id": "0",
+      "label": "Outdoor light",
+      "icon": "mdi:track-light",
+      "entities": [
+        "switch.0x1cc089fffe15b71d"
+      ],
+      "position": {
+        "left": "15.29%",
+        "top": "35.83%"
+      }
+    },
+    {
+      "id": "1",
+      "label": "Festavia string lights",
+      "icon": "mdi:string-lights",
+      "entities": [
+        "light.festavia_string_lights_1"
+      ],
+      "position": {
+        "left": "4.96%",
+        "top": "51.19%"
+      }
+    },
+    {
+      "id": "2",
+      "label": "Xamento M 3",
+      "icon": "mdi:ceiling-light",
+      "entities": [
+        "light.hue_xamento_m_3"
+      ],
+      "position": {
+        "left": "24.22%",
+        "top": "37.86%"
+      }
+    },
+    {
+      "id": "2.5",
+      "label": "Gradient pair",
+      "icon": "mdi:lightbulb",
+      "entities": [
+        "light.hue_gradient_lower",
+        "light.hue_gradient_upper"
+      ],
+      "position": {
+        "left": "24.17%",
+        "top": "52.42%"
+      }
+    },
+    {
+      "id": "3",
+      "label": "Table lamp",
+      "icon": "mdi:lamp",
+      "entities": [
+        "light.go_table_lamp_1"
+      ],
+      "position": {
+        "left": "26.45%",
+        "top": "18.81%"
+      }
+    },
+    {
+      "id": "4",
+      "label": "Datura L 3",
+      "icon": "mdi:ceiling-light",
+      "entities": [
+        "light.hue_datura_l_3_background",
+        "light.hue_datura_l_3_main"
+      ],
+      "position": {
+        "left": "30.97%",
+        "top": "16.80%"
+      }
+    },
+    {
+      "id": "5",
+      "label": "Datura L 2",
+      "icon": "mdi:ceiling-light",
+      "entities": [
+        "light.hue_datura_l_2_background",
+        "light.hue_datura_l_2_main"
+      ],
+      "position": {
+        "left": "44.36%",
+        "top": "20.16%"
+      }
+    },
+    {
+      "id": "6",
+      "label": "Daylo 2",
+      "icon": "mdi:ceiling-light",
+      "entities": [
+        "light.hue_daylo_2"
+      ],
+      "position": {
+        "left": "34.33%",
+        "top": "42.58%"
+      }
+    },
+    {
+      "id": "7",
+      "label": "Play gradient",
+      "icon": "mdi:lightbulb",
+      "entities": [
+        "light.hue_play_gradient"
+      ],
+      "position": {
+        "left": "40.86%",
+        "top": "30.14%"
+      }
+    },
+    {
+      "id": "8",
+      "label": "Daylo 1",
+      "icon": "mdi:ceiling-light",
+      "entities": [
+        "light.hue_daylo_1"
+      ],
+      "position": {
+        "left": "43.11%",
+        "top": "42.72%"
+      }
+    },
+    {
+      "id": "9",
+      "label": "Bathroom mirror",
+      "icon": "mdi:lightbulb",
+      "entities": [
+        "switch.light_mirror_bathroom"
+      ],
+      "position": {
+        "left": "38.25%",
+        "top": "41.58%"
+      }
+    },
+    {
+      "id": "10",
+      "label": "Spot pair 3/4",
+      "icon": "mdi:google-circles-communities",
+      "entities": [
+        "light.hue_spot_3",
+        "light.hue_spot_4"
+      ],
+      "position": {
+        "left": "44.46%",
+        "top": "36.54%"
+      }
+    },
+    {
+      "id": "11",
+      "label": "Datura M 2",
+      "icon": "mdi:ceiling-light",
+      "entities": [
+        "light.hue_datura_m_2_background",
+        "light.hue_datura_bottom_1_2"
+      ],
+      "position": {
+        "left": "51.87%",
+        "top": "39.55%"
+      }
+    },
+    {
+      "id": "12",
+      "label": "Datura M 1",
+      "icon": "mdi:ceiling-light",
+      "entities": [
+        "light.hue_datura_m_1_background",
+        "light.hue_datura_m_1_main"
+      ],
+      "position": {
+        "left": "66.71%",
+        "top": "38.31%"
+      }
+    },
+    {
+      "id": "13",
+      "label": "Lightstrip Plus",
+      "icon": "mdi:lightbulb",
+      "entities": [
+        "light.hue_lightstrip_plus_1"
+      ],
+      "position": {
+        "left": "70.02%",
+        "top": "30.49%"
+      }
+    },
+    {
+      "id": "14",
+      "label": "Xamento L",
+      "icon": "mdi:ceiling-light",
+      "entities": [
+        "light.hue_xamento_l"
+      ],
+      "position": {
+        "left": "70.67%",
+        "top": "17.26%"
+      }
+    },
+    {
+      "id": "14.5",
+      "label": "Plug",
+      "icon": "mdi:lightbulb",
+      "entities": [
+        "light.on_off_plug_1"
+      ],
+      "position": {
+        "left": "66.11%",
+        "top": "21.53%"
+      }
+    },
+    {
+      "id": "15",
+      "label": "Xamento M 2",
+      "icon": "mdi:ceiling-light",
+      "entities": [
+        "light.hue_xamento_m_2"
+      ],
+      "position": {
+        "left": "67.28%",
+        "top": "56.48%"
+      }
+    },
+    {
+      "id": "16",
+      "label": "Bathroom 2 mirror",
+      "icon": "mdi:lightbulb",
+      "entities": [
+        "switch.light_mirror_bathroom"
+      ],
+      "position": {
+        "left": "38.25%",
+        "top": "41.58%"
+      }
+    },
+    {
+      "id": "17",
+      "label": "Spot pair 1/2",
+      "icon": "mdi:google-circles-communities",
+      "entities": [
+        "light.hue_spot_1",
+        "light.hue_spot_2"
+      ],
+      "position": {
+        "left": "69.59%",
+        "top": "49.25%"
+      }
+    },
+    {
+      "id": "18",
+      "label": "Bedroom Datura",
+      "icon": "mdi:ceiling-light",
+      "entities": [
+        "light.hue_datura_bottom_1",
+        "light.hue_datura_l_1_background"
+      ],
+      "position": {
+        "left": "83.01%",
+        "top": "57.12%"
+      }
+    },
+    {
+      "id": "19",
+      "label": "Hue Go S",
+      "icon": "mdi:lightbulb",
+      "entities": [
+        "light.hue_go_s"
+      ],
+      "position": {
+        "left": "77.86%",
+        "top": "69.32%"
+      }
+    },
+    {
+      "id": "20",
+      "label": "Hue Go K",
+      "icon": "mdi:lightbulb",
+      "entities": [
+        "light.hue_go_k"
+      ],
+      "position": {
+        "left": "90.10%",
+        "top": "68.51%"
+      }
+    },
+    {
+      "id": "21",
+      "label": "Xamento M 1",
+      "icon": "mdi:ceiling-light",
+      "entities": [
+        "light.hue_xamento_m_1"
+      ],
+      "position": {
+        "left": "88.69%",
+        "top": "23.56%"
+      }
+    },
+    {
+      "id": "1774170714669",
+      "label": "Entry door",
+      "icon": "mdi:door",
+      "entities": [
+        "script.entrey_door_open"
+      ],
+      "position": {
+        "left": "50.27%",
+        "top": "52.64%"
+      }
+    },
+    {
+      "id": "1774170772485",
+      "label": "Shower damper",
+      "icon": "mdi:fan",
+      "entities": [
+        "fan.shower_damper_position"
+      ],
+      "position": {
+        "left": "40.07%",
+        "top": "35.40%"
+      }
+    },
+    {
+      "id": "1774170815135",
+      "label": "Bathroom damper",
+      "icon": "mdi:fan",
+      "entities": [
+        "fan.bathroom_damper_position"
+      ],
+      "position": {
+        "left": "62.09%",
+        "top": "60.83%"
+      }
+    },
+    {
+      "id": "1774170840002",
+      "label": "Laundry damper",
+      "icon": "mdi:fan",
+      "entities": [
+        "fan.laundry_damper_position"
+      ],
+      "position": {
+        "left": "34.35%",
+        "top": "48.45%"
+      }
+    },
+    {
+      "id": "1774170898418",
+      "label": "Shutter small bedroom 3",
+      "icon": "mdi:blinds-horizontal",
+      "entities": [
+        "cover.shutter_small_bedroom_3"
+      ],
+      "position": {
+        "left": "83.96%",
+        "top": "6.50%"
+      }
+    },
+    {
+      "id": "1774170947984",
+      "label": "Shutter livingroom 3",
+      "icon": "mdi:blinds-horizontal",
+      "entities": [
+        "cover.shuuter_livingroom_3"
+      ],
+      "position": {
+        "left": "30.26%",
+        "top": "6.50%"
+      }
+    },
+    {
+      "id": "1774172338033",
+      "label": "Shutter livingroom 1",
+      "icon": "mdi:blinds-horizontal",
+      "entities": [
+        "cover.shutter_livingroom_1"
+      ],
+      "position": {
+        "left": "52.70%",
+        "top": "6.50%"
+      }
+    },
+    {
+      "id": "1774172385083",
+      "label": "Shutter bedroom right",
+      "icon": "mdi:blinds-horizontal",
+      "entities": [
+        "cover.shutter_bedroom_right"
+      ],
+      "position": {
+        "left": "94.77%",
+        "top": "64.00%"
+      }
+    },
+    {
+      "id": "1774202370378",
+      "label": "Shutter bedroom left",
+      "icon": "mdi:blinds-horizontal",
+      "entities": [
+        "cover.shutter_bedroom_left"
+      ],
+      "position": {
+        "left": "94.77%",
+        "top": "53.96%"
+      }
+    },
+    {
+      "id": "1774202422578",
+      "label": "Shutter small bedroom 1",
+      "icon": "mdi:blinds-horizontal",
+      "entities": [
+        "cover.shutter_small_bedroom_1"
+      ],
+      "position": {
+        "left": "94.77%",
+        "top": "23.15%"
+      }
+    },
+    {
+      "id": "1774202484011",
+      "label": "Shutter small bedroom 2",
+      "icon": "mdi:blinds-horizontal",
+      "entities": [
+        "cover.shutter_small_bedroom_2"
+      ],
+      "position": {
+        "left": "94.77%",
+        "top": "13.05%"
+      }
+    },
+    {
+      "id": "1774202729544",
+      "label": "Shutter office right",
+      "icon": "mdi:blinds-horizontal",
+      "entities": [
+        "cover.shutter_office_right"
+      ],
+      "position": {
+        "left": "72.43%",
+        "top": "6.50%"
+      }
+    },
+    {
+      "id": "1774202746592",
+      "label": "Shutter office left",
+      "icon": "mdi:blinds-horizontal",
+      "entities": [
+        "cover.shutter_office_left"
+      ],
+      "position": {
+        "left": "66.06%",
+        "top": "6.50%"
+      }
+    },
+    {
+      "id": "1774202835026",
+      "label": "Shutter livingroom 2",
+      "icon": "mdi:blinds-horizontal",
+      "entities": [
+        "cover.shutter_livingroom_2"
+      ],
+      "position": {
+        "left": "46.10%",
+        "top": "6.50%"
+      }
+    },
+    {
+      "id": "1774202930477",
+      "label": "Shutter livingroom 4",
+      "icon": "mdi:blinds-horizontal",
+      "entities": [
+        "cover.shutter_livingroom_4_3"
+      ],
+      "position": {
+        "left": "23.73%",
+        "top": "6.50%"
+      }
+    },
+    {
+      "id": "1774202961193",
+      "label": "Shutter kitchen",
+      "icon": "mdi:blinds-horizontal",
+      "entities": [
+        "cover.shutter_kitchen"
+      ],
+      "position": {
+        "left": "17.16%",
+        "top": "43.79%"
+      }
+    },
+    {
+      "id": "1774203016042",
+      "label": "Shutter terrace",
+      "icon": "mdi:blinds-horizontal",
+      "entities": [
+        "cover.shutter_terrace"
+      ],
+      "position": {
+        "left": "17.36%",
+        "top": "21.33%"
+      }
+    },
+    {
+      "id": "1774203424658",
+      "label": "Mirror switch",
+      "icon": "mdi:lightbulb",
+      "entities": [
+        "switch.light_mirror_bathroom"
+      ],
+      "position": {
+        "left": "38.25%",
+        "top": "41.58%"
+      }
+    },
+    {
+      "id": "1774280825595",
+      "label": "New device",
+      "icon": "mdi:lightbulb",
+      "entities": [
+        "switch.light_mirror_bathroom"
+      ],
+      "position": {
+        "left": "62.60%",
+        "top": "50.56%"
+      }
+    }
+  ],
+  "entities": {
+    "switch.outdoor_light": {
+      "member_label": "Outdoor light relay"
+    },
+    "light.festavia_string_lights_1": {
+      "brightness": 192,
+      "hs_color": [
+        28,
+        58
+      ]
+    },
+    "light.hue_gradient_lower": {
+      "default_state": "off",
+      "brightness": 168,
+      "hs_color": [
+        205,
+        78
+      ],
+      "member_label": "Lower"
+    },
+    "light.hue_gradient_upper": {
+      "default_state": "off",
+      "brightness": 168,
+      "hs_color": [
+        285,
+        74
+      ],
+      "member_label": "Upper"
+    },
+    "light.go_table_lamp_1": {
+      "default_state": "off",
+      "brightness": 206,
+      "color_temp": 420
+    },
+    "light.hue_datura_l_3_background": {
+      "hs_color": [
+        24,
+        46
+      ],
+      "member_label": "Background"
+    },
+    "light.hue_datura_l_3_main": {
+      "member_label": "Main"
+    },
+    "light.hue_datura_l_2_background": {
+      "hs_color": [
+        24,
+        46
+      ],
+      "member_label": "Background"
+    },
+    "light.hue_datura_l_2_main": {
+      "member_label": "Main"
+    },
+    "light.hue_play_gradient": {
+      "default_state": "off",
+      "brightness": 168,
+      "hs_color": [
+        265,
+        82
+      ]
+    },
+    "switch.bathroom_mirror": {
+      "default_state": "on",
+      "member_label": "Mirror relay"
+    },
+    "light.hue_spot_3": {
+      "supports_color": false,
+      "brightness": 182,
+      "hs_color": [
+        34,
+        16
+      ],
+      "color_temp": 360,
+      "member_label": "Spot 3"
+    },
+    "light.hue_spot_4": {
+      "supports_color": false,
+      "brightness": 182,
+      "hs_color": [
+        34,
+        16
+      ],
+      "color_temp": 360,
+      "member_label": "Spot 4"
+    },
+    "light.hue_datura_m_2_background": {
+      "hs_color": [
+        24,
+        46
+      ],
+      "member_label": "Background"
+    },
+    "light.hue_datura_m_2_main": {
+      "member_label": "Main"
+    },
+    "light.hue_datura_m_1_background": {
+      "hs_color": [
+        24,
+        46
+      ],
+      "member_label": "Background"
+    },
+    "light.hue_datura_m_1_main": {
+      "member_label": "Main"
+    },
+    "light.hue_lightstrip_plus_1": {
+      "brightness": 186,
+      "hs_color": [
+        34,
+        56
+      ]
+    },
+    "light.on_off_plug_1": {
+      "default_state": "off",
+      "supports_color": false,
+      "supports_brightness": false,
+      "supports_color_temp": false,
+      "member_label": "Plug relay"
+    },
+    "switch.bathroom2_mirror": {
+      "default_state": "on",
+      "member_label": "Mirror relay"
+    },
+    "light.hue_spot_1": {
+      "supports_color": false,
+      "brightness": 182,
+      "hs_color": [
+        34,
+        16
+      ],
+      "color_temp": 360,
+      "member_label": "Spot 1"
+    },
+    "light.hue_spot_2": {
+      "supports_color": false,
+      "brightness": 182,
+      "hs_color": [
+        34,
+        16
+      ],
+      "color_temp": 360,
+      "member_label": "Spot 2"
+    },
+    "light.hue_datura_bottom_1": {
+      "member_label": "Main"
+    },
+    "light.hue_datura_l_1_background": {
+      "hs_color": [
+        24,
+        46
+      ],
+      "member_label": "Background"
+    },
+    "light.hue_go_s": {
+      "brightness": 206,
+      "hs_color": [
+        338,
+        62
+      ],
+      "color_temp": 420
+    },
+    "light.hue_go_k": {
+      "brightness": 206,
+      "hs_color": [
+        28,
+        68
+      ],
+      "color_temp": 420
+    }
+  },
+  "entity_defaults": {
+    "light": {
+      "default_state": "on",
+      "supports_color": true,
+      "supports_brightness": true,
+      "supports_color_temp": true,
+      "brightness": 200,
+      "hs_color": [34, 22],
+      "color_temp": 430
+    },
+    "switch": {
+      "default_state": "off",
+      "supports_color": false,
+      "supports_brightness": false,
+      "supports_color_temp": false
+    },
+    "fan": { "default_state": "off" },
+    "cover": { "default_state": "off" },
+    "script": { "default_state": "off" }
+  },
+  "build": {
+    "group_bindings": {
+      "2.5": { "group_entity": "light.gradient_pair" },
+      "4": { "group_entity": "light.datura_l3" },
+      "5": { "group_entity": "light.datura_l2" },
+      "10": { "group_entity": "light.spots_3_4" },
+      "11": { "group_entity": "light.datura_m2" },
+      "12": { "group_entity": "light.datura_m1" },
+      "17": { "group_entity": "light.spots_1_2" },
+      "18": { "group_entity": "light.bedroom_datura" }
+    },
+    "image_asset_overrides": {
+      "switch.0x1cc089fffe15b71d": ["switch.outdoor_light.png"],
+      "switch.light_mirror_bathroom": ["switch.bathroom_mirror.png", "switch.bathroom2_mirror.png"],
+      "light.hue_datura_bottom_1_2": ["light.hue_datura_m_2_main.png"]
+    },
+    "opacity_scale": {
+      "light.festavia_string_lights_1": 0.6
+    }
+  }
+}
