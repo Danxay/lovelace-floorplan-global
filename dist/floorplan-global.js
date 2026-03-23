@@ -582,12 +582,19 @@ const FLOORPLAN_MODULE_URL = import.meta.url;
         use_group_popup: prevVars.use_group_popup || false
       };
       if (group) newVars.group_entity = group;
+      var triggersUpdate = [];
+      if (primary) triggersUpdate.push(primary);
+      if (Array.isArray(members)) triggersUpdate = triggersUpdate.concat(members);
+      if (group) triggersUpdate.push(group);
+      triggersUpdate = Array.from(new Set(triggersUpdate.filter(Boolean)));
 
       var newConfig = {
         type: btn._config.type || 'custom:button-card',
+        entity: primary,
         template: btn._config.template,  // e.g. ['group_point']
         icon: btn._config.icon,
-        variables: newVars
+        variables: newVars,
+        triggers_update: triggersUpdate
       };
 
       btn.setConfig(newConfig);

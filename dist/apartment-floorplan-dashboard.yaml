@@ -673,6 +673,7 @@ views:
                 top: "50%"
                 width: "100%"
             - type: "custom:button-card"
+              entity: "switch.0x1cc089fffe15b71d"
               icon: "mdi:track-light"
               template:
                 - "group_point"
@@ -682,10 +683,13 @@ views:
                   - "switch.0x1cc089fffe15b71d"
                 point_label: "Outdoor light"
                 use_group_popup: false
+              triggers_update:
+                - "switch.0x1cc089fffe15b71d"
               style:
                 left: "15.29%"
                 top: "35.83%"
             - type: "custom:button-card"
+              entity: "light.festavia_string_lights_1"
               icon: "mdi:string-lights"
               template:
                 - "group_point"
@@ -695,10 +699,13 @@ views:
                   - "light.festavia_string_lights_1"
                 point_label: "Festavia string lights"
                 use_group_popup: false
+              triggers_update:
+                - "light.festavia_string_lights_1"
               style:
                 left: "4.96%"
                 top: "51.19%"
             - type: "custom:button-card"
+              entity: "light.hue_xamento_m_3"
               icon: "mdi:ceiling-light"
               template:
                 - "group_point"
@@ -708,10 +715,13 @@ views:
                   - "light.hue_xamento_m_3"
                 point_label: "Xamento M 3"
                 use_group_popup: false
+              triggers_update:
+                - "light.hue_xamento_m_3"
               style:
                 left: "24.22%"
                 top: "37.86%"
             - type: "custom:button-card"
+              entity: "light.hue_gradient_upper"
               icon: "mdi:lightbulb"
               template:
                 - "group_point"
@@ -723,12 +733,17 @@ views:
                 group_entity: "light.gradient_pair"
                 point_label: "Gradient pair"
                 use_group_popup: true
+              triggers_update:
+                - "light.hue_gradient_upper"
+                - "light.hue_gradient_lower"
+                - "light.gradient_pair"
               style:
                 left: "24.17%"
                 top: "52.42%"
               hold_action:
                 action: "none"
             - type: "custom:button-card"
+              entity: "light.go_table_lamp_1"
               icon: "mdi:lamp"
               template:
                 - "group_point"
@@ -738,10 +753,13 @@ views:
                   - "light.go_table_lamp_1"
                 point_label: "Table lamp"
                 use_group_popup: false
+              triggers_update:
+                - "light.go_table_lamp_1"
               style:
                 left: "26.45%"
                 top: "18.81%"
             - type: "custom:button-card"
+              entity: "light.hue_datura_l_3_main"
               icon: "mdi:ceiling-light"
               template:
                 - "group_point"
@@ -753,12 +771,17 @@ views:
                 group_entity: "light.datura_l3"
                 point_label: "Datura L 3"
                 use_group_popup: true
+              triggers_update:
+                - "light.hue_datura_l_3_main"
+                - "light.hue_datura_l_3_background"
+                - "light.datura_l3"
               style:
                 left: "30.97%"
                 top: "16.80%"
               hold_action:
                 action: "none"
             - type: "custom:button-card"
+              entity: "light.hue_datura_l_2_main"
               icon: "mdi:ceiling-light"
               template:
                 - "group_point"
@@ -770,12 +793,17 @@ views:
                 group_entity: "light.datura_l2"
                 point_label: "Datura L 2"
                 use_group_popup: true
+              triggers_update:
+                - "light.hue_datura_l_2_main"
+                - "light.hue_datura_l_2_background"
+                - "light.datura_l2"
               style:
                 left: "44.36%"
                 top: "20.16%"
               hold_action:
                 action: "none"
             - type: "custom:button-card"
+              entity: "light.hue_daylo_2"
               icon: "mdi:ceiling-light"
               template:
                 - "group_point"
@@ -785,10 +813,13 @@ views:
                   - "light.hue_daylo_2"
                 point_label: "Daylo 2"
                 use_group_popup: false
+              triggers_update:
+                - "light.hue_daylo_2"
               style:
                 left: "34.33%"
                 top: "42.58%"
             - type: "custom:button-card"
+              entity: "light.hue_play_gradient"
               icon: "mdi:lightbulb"
               template:
                 - "group_point"
@@ -798,10 +829,13 @@ views:
                   - "light.hue_play_gradient"
                 point_label: "Play gradient"
                 use_group_popup: false
+              triggers_update:
+                - "light.hue_play_gradient"
               style:
                 left: "40.86%"
                 top: "30.14%"
             - type: "custom:button-card"
+              entity: "light.hue_daylo_1"
               icon: "mdi:ceiling-light"
               template:
                 - "group_point"
@@ -811,10 +845,13 @@ views:
                   - "light.hue_daylo_1"
                 point_label: "Daylo 1"
                 use_group_popup: false
+              triggers_update:
+                - "light.hue_daylo_1"
               style:
                 left: "43.11%"
                 top: "42.72%"
             - type: "custom:button-card"
+              entity: "switch.light_mirror_bathroom"
               icon: "mdi:lightbulb"
               template:
                 - "group_point"
@@ -824,10 +861,13 @@ views:
                   - "switch.light_mirror_bathroom"
                 point_label: "Bathroom mirror"
                 use_group_popup: false
+              triggers_update:
+                - "switch.light_mirror_bathroom"
               style:
                 left: "38.25%"
                 top: "41.58%"
             - type: "custom:button-card"
+              entity: "light.hue_spot_4"
               icon: "mdi:google-circles-communities"
               template:
                 - "group_point"
@@ -839,12 +879,17 @@ views:
                 group_entity: "light.spots_3_4"
                 point_label: "Spot pair 3/4"
                 use_group_popup: true
+              triggers_update:
+                - "light.hue_spot_4"
+                - "light.hue_spot_3"
+                - "light.spots_3_4"
               style:
                 left: "44.46%"
                 top: "36.54%"
               hold_action:
                 action: "none"
             - type: "custom:button-card"
+              entity: "light.hue_datura_bottom_1_2"
               icon: "mdi:ceiling-light"
               template:
                 - "group_point"
@@ -856,12 +901,17 @@ views:
                 group_entity: "light.datura_m2"
                 point_label: "Datura M 2"
                 use_group_popup: true
+              triggers_update:
+                - "light.hue_datura_bottom_1_2"
+                - "light.hue_datura_m_2_background"
+                - "light.datura_m2"
               style:
                 left: "51.87%"
                 top: "39.55%"
               hold_action:
                 action: "none"
             - type: "custom:button-card"
+              entity: "light.hue_datura_m_1_main"
               icon: "mdi:ceiling-light"
               template:
                 - "group_point"
@@ -873,12 +923,17 @@ views:
                 group_entity: "light.datura_m1"
                 point_label: "Datura M 1"
                 use_group_popup: true
+              triggers_update:
+                - "light.hue_datura_m_1_main"
+                - "light.hue_datura_m_1_background"
+                - "light.datura_m1"
               style:
                 left: "66.71%"
                 top: "38.31%"
               hold_action:
                 action: "none"
             - type: "custom:button-card"
+              entity: "light.hue_lightstrip_plus_1"
               icon: "mdi:lightbulb"
               template:
                 - "group_point"
@@ -888,10 +943,13 @@ views:
                   - "light.hue_lightstrip_plus_1"
                 point_label: "Lightstrip Plus"
                 use_group_popup: false
+              triggers_update:
+                - "light.hue_lightstrip_plus_1"
               style:
                 left: "70.02%"
                 top: "30.49%"
             - type: "custom:button-card"
+              entity: "light.hue_xamento_l"
               icon: "mdi:ceiling-light"
               template:
                 - "group_point"
@@ -901,10 +959,13 @@ views:
                   - "light.hue_xamento_l"
                 point_label: "Xamento L"
                 use_group_popup: false
+              triggers_update:
+                - "light.hue_xamento_l"
               style:
                 left: "70.67%"
                 top: "17.26%"
             - type: "custom:button-card"
+              entity: "light.on_off_plug_1"
               icon: "mdi:lightbulb"
               template:
                 - "group_point"
@@ -914,10 +975,13 @@ views:
                   - "light.on_off_plug_1"
                 point_label: "Plug"
                 use_group_popup: false
+              triggers_update:
+                - "light.on_off_plug_1"
               style:
                 left: "66.11%"
                 top: "21.53%"
             - type: "custom:button-card"
+              entity: "light.hue_xamento_m_2"
               icon: "mdi:ceiling-light"
               template:
                 - "group_point"
@@ -927,10 +991,13 @@ views:
                   - "light.hue_xamento_m_2"
                 point_label: "Xamento M 2"
                 use_group_popup: false
+              triggers_update:
+                - "light.hue_xamento_m_2"
               style:
                 left: "67.28%"
                 top: "56.48%"
             - type: "custom:button-card"
+              entity: "switch.light_mirror_bathroom"
               icon: "mdi:lightbulb"
               template:
                 - "group_point"
@@ -940,10 +1007,13 @@ views:
                   - "switch.light_mirror_bathroom"
                 point_label: "Bathroom 2 mirror"
                 use_group_popup: false
+              triggers_update:
+                - "switch.light_mirror_bathroom"
               style:
                 left: "38.25%"
                 top: "41.58%"
             - type: "custom:button-card"
+              entity: "light.hue_spot_2"
               icon: "mdi:google-circles-communities"
               template:
                 - "group_point"
@@ -955,12 +1025,17 @@ views:
                 group_entity: "light.spots_1_2"
                 point_label: "Spot pair 1/2"
                 use_group_popup: true
+              triggers_update:
+                - "light.hue_spot_2"
+                - "light.hue_spot_1"
+                - "light.spots_1_2"
               style:
                 left: "69.59%"
                 top: "49.25%"
               hold_action:
                 action: "none"
             - type: "custom:button-card"
+              entity: "light.hue_datura_l_1_background"
               icon: "mdi:ceiling-light"
               template:
                 - "group_point"
@@ -972,12 +1047,17 @@ views:
                 group_entity: "light.bedroom_datura"
                 point_label: "Bedroom Datura"
                 use_group_popup: true
+              triggers_update:
+                - "light.hue_datura_l_1_background"
+                - "light.hue_datura_bottom_1"
+                - "light.bedroom_datura"
               style:
                 left: "83.01%"
                 top: "57.12%"
               hold_action:
                 action: "none"
             - type: "custom:button-card"
+              entity: "light.hue_go_s"
               icon: "mdi:lightbulb"
               template:
                 - "group_point"
@@ -987,10 +1067,13 @@ views:
                   - "light.hue_go_s"
                 point_label: "Hue Go S"
                 use_group_popup: false
+              triggers_update:
+                - "light.hue_go_s"
               style:
                 left: "77.86%"
                 top: "69.32%"
             - type: "custom:button-card"
+              entity: "light.hue_go_k"
               icon: "mdi:lightbulb"
               template:
                 - "group_point"
@@ -1000,10 +1083,13 @@ views:
                   - "light.hue_go_k"
                 point_label: "Hue Go K"
                 use_group_popup: false
+              triggers_update:
+                - "light.hue_go_k"
               style:
                 left: "90.10%"
                 top: "68.51%"
             - type: "custom:button-card"
+              entity: "light.hue_xamento_m_1"
               icon: "mdi:ceiling-light"
               template:
                 - "group_point"
@@ -1013,10 +1099,13 @@ views:
                   - "light.hue_xamento_m_1"
                 point_label: "Xamento M 1"
                 use_group_popup: false
+              triggers_update:
+                - "light.hue_xamento_m_1"
               style:
                 left: "88.69%"
                 top: "23.56%"
             - type: "custom:button-card"
+              entity: "script.entrey_door_open"
               icon: "mdi:door"
               template:
                 - "group_point"
@@ -1026,10 +1115,13 @@ views:
                   - "script.entrey_door_open"
                 point_label: "Entry door"
                 use_group_popup: false
+              triggers_update:
+                - "script.entrey_door_open"
               style:
                 left: "50.27%"
                 top: "52.64%"
             - type: "custom:button-card"
+              entity: "fan.shower_damper_position"
               icon: "mdi:fan"
               template:
                 - "group_point"
@@ -1039,10 +1131,13 @@ views:
                   - "fan.shower_damper_position"
                 point_label: "Shower damper"
                 use_group_popup: false
+              triggers_update:
+                - "fan.shower_damper_position"
               style:
                 left: "40.07%"
                 top: "35.40%"
             - type: "custom:button-card"
+              entity: "fan.bathroom_damper_position"
               icon: "mdi:fan"
               template:
                 - "group_point"
@@ -1052,10 +1147,13 @@ views:
                   - "fan.bathroom_damper_position"
                 point_label: "Bathroom damper"
                 use_group_popup: false
+              triggers_update:
+                - "fan.bathroom_damper_position"
               style:
                 left: "62.09%"
                 top: "60.83%"
             - type: "custom:button-card"
+              entity: "fan.laundry_damper_position"
               icon: "mdi:fan"
               template:
                 - "group_point"
@@ -1065,10 +1163,13 @@ views:
                   - "fan.laundry_damper_position"
                 point_label: "Laundry damper"
                 use_group_popup: false
+              triggers_update:
+                - "fan.laundry_damper_position"
               style:
                 left: "34.35%"
                 top: "48.45%"
             - type: "custom:button-card"
+              entity: "cover.shutter_small_bedroom_3"
               icon: "mdi:blinds-horizontal"
               template:
                 - "group_point"
@@ -1078,10 +1179,13 @@ views:
                   - "cover.shutter_small_bedroom_3"
                 point_label: "Shutter small bedroom 3"
                 use_group_popup: false
+              triggers_update:
+                - "cover.shutter_small_bedroom_3"
               style:
                 left: "83.96%"
                 top: "6.50%"
             - type: "custom:button-card"
+              entity: "cover.shuuter_livingroom_3"
               icon: "mdi:blinds-horizontal"
               template:
                 - "group_point"
@@ -1091,10 +1195,13 @@ views:
                   - "cover.shuuter_livingroom_3"
                 point_label: "Shutter livingroom 3"
                 use_group_popup: false
+              triggers_update:
+                - "cover.shuuter_livingroom_3"
               style:
                 left: "30.26%"
                 top: "6.50%"
             - type: "custom:button-card"
+              entity: "cover.shutter_livingroom_1"
               icon: "mdi:blinds-horizontal"
               template:
                 - "group_point"
@@ -1104,10 +1211,13 @@ views:
                   - "cover.shutter_livingroom_1"
                 point_label: "Shutter livingroom 1"
                 use_group_popup: false
+              triggers_update:
+                - "cover.shutter_livingroom_1"
               style:
                 left: "52.70%"
                 top: "6.50%"
             - type: "custom:button-card"
+              entity: "cover.shutter_bedroom_right"
               icon: "mdi:blinds-horizontal"
               template:
                 - "group_point"
@@ -1117,10 +1227,13 @@ views:
                   - "cover.shutter_bedroom_right"
                 point_label: "Shutter bedroom right"
                 use_group_popup: false
+              triggers_update:
+                - "cover.shutter_bedroom_right"
               style:
                 left: "94.77%"
                 top: "64.00%"
             - type: "custom:button-card"
+              entity: "cover.shutter_bedroom_left"
               icon: "mdi:blinds-horizontal"
               template:
                 - "group_point"
@@ -1130,10 +1243,13 @@ views:
                   - "cover.shutter_bedroom_left"
                 point_label: "Shutter bedroom left"
                 use_group_popup: false
+              triggers_update:
+                - "cover.shutter_bedroom_left"
               style:
                 left: "94.77%"
                 top: "53.96%"
             - type: "custom:button-card"
+              entity: "cover.shutter_small_bedroom_1"
               icon: "mdi:blinds-horizontal"
               template:
                 - "group_point"
@@ -1143,10 +1259,13 @@ views:
                   - "cover.shutter_small_bedroom_1"
                 point_label: "Shutter small bedroom 1"
                 use_group_popup: false
+              triggers_update:
+                - "cover.shutter_small_bedroom_1"
               style:
                 left: "94.77%"
                 top: "23.15%"
             - type: "custom:button-card"
+              entity: "cover.shutter_small_bedroom_2"
               icon: "mdi:blinds-horizontal"
               template:
                 - "group_point"
@@ -1156,10 +1275,13 @@ views:
                   - "cover.shutter_small_bedroom_2"
                 point_label: "Shutter small bedroom 2"
                 use_group_popup: false
+              triggers_update:
+                - "cover.shutter_small_bedroom_2"
               style:
                 left: "94.77%"
                 top: "13.05%"
             - type: "custom:button-card"
+              entity: "cover.shutter_office_right"
               icon: "mdi:blinds-horizontal"
               template:
                 - "group_point"
@@ -1169,10 +1291,13 @@ views:
                   - "cover.shutter_office_right"
                 point_label: "Shutter office right"
                 use_group_popup: false
+              triggers_update:
+                - "cover.shutter_office_right"
               style:
                 left: "72.43%"
                 top: "6.50%"
             - type: "custom:button-card"
+              entity: "cover.shutter_office_left"
               icon: "mdi:blinds-horizontal"
               template:
                 - "group_point"
@@ -1182,10 +1307,13 @@ views:
                   - "cover.shutter_office_left"
                 point_label: "Shutter office left"
                 use_group_popup: false
+              triggers_update:
+                - "cover.shutter_office_left"
               style:
                 left: "66.06%"
                 top: "6.50%"
             - type: "custom:button-card"
+              entity: "cover.shutter_livingroom_2"
               icon: "mdi:blinds-horizontal"
               template:
                 - "group_point"
@@ -1195,10 +1323,13 @@ views:
                   - "cover.shutter_livingroom_2"
                 point_label: "Shutter livingroom 2"
                 use_group_popup: false
+              triggers_update:
+                - "cover.shutter_livingroom_2"
               style:
                 left: "46.10%"
                 top: "6.50%"
             - type: "custom:button-card"
+              entity: "cover.shutter_livingroom_4_3"
               icon: "mdi:blinds-horizontal"
               template:
                 - "group_point"
@@ -1208,10 +1339,13 @@ views:
                   - "cover.shutter_livingroom_4_3"
                 point_label: "Shutter livingroom 4"
                 use_group_popup: false
+              triggers_update:
+                - "cover.shutter_livingroom_4_3"
               style:
                 left: "23.73%"
                 top: "6.50%"
             - type: "custom:button-card"
+              entity: "cover.shutter_kitchen"
               icon: "mdi:blinds-horizontal"
               template:
                 - "group_point"
@@ -1221,10 +1355,13 @@ views:
                   - "cover.shutter_kitchen"
                 point_label: "Shutter kitchen"
                 use_group_popup: false
+              triggers_update:
+                - "cover.shutter_kitchen"
               style:
                 left: "17.16%"
                 top: "43.79%"
             - type: "custom:button-card"
+              entity: "cover.shutter_terrace"
               icon: "mdi:blinds-horizontal"
               template:
                 - "group_point"
@@ -1234,10 +1371,13 @@ views:
                   - "cover.shutter_terrace"
                 point_label: "Shutter terrace"
                 use_group_popup: false
+              triggers_update:
+                - "cover.shutter_terrace"
               style:
                 left: "17.36%"
                 top: "21.33%"
             - type: "custom:button-card"
+              entity: "switch.light_mirror_bathroom"
               icon: "mdi:lightbulb"
               template:
                 - "group_point"
@@ -1247,10 +1387,13 @@ views:
                   - "switch.light_mirror_bathroom"
                 point_label: "Mirror switch"
                 use_group_popup: false
+              triggers_update:
+                - "switch.light_mirror_bathroom"
               style:
                 left: "38.25%"
                 top: "41.58%"
             - type: "custom:button-card"
+              entity: "switch.light_mirror_bathroom"
               icon: "mdi:lightbulb"
               template:
                 - "group_point"
@@ -1260,6 +1403,8 @@ views:
                   - "switch.light_mirror_bathroom"
                 point_label: "New device"
                 use_group_popup: false
+              triggers_update:
+                - "switch.light_mirror_bathroom"
               style:
                 left: "62.60%"
                 top: "50.56%"
