@@ -17,6 +17,8 @@ const FLOORPLAN_MODULE_URL = import.meta.url;
   var GLOBAL_SET_OVERRIDES_WS_TYPE = 'floorplan_global/set_overrides';
   var WIDGET_SPEC_URL = new URL('widget_spec.json', FLOORPLAN_MODULE_URL).toString();
   var GROUP_POPUP_HOLD_MS = 420;
+  var SOFT_REFRESH_INTERVAL_MS = 15000;
+  var SOFT_REFRESH_FOCUS_DELAY_MS = 350;
   var groupPopupState = null;
 
   // ─── Utility: shadow DOM traversal ──────────────────────────────────
@@ -633,6 +635,58 @@ const FLOORPLAN_MODULE_URL = import.meta.url;
     }
   }
 
+  function forceRefreshButtons(ctcEl, reason) {
+    if (!ctcEl || !ctcEl._fpReady || !ctcEl.hass || ctcEl._fpConfigMode || groupPopupState) return;
+    if (ctcEl._fpRefreshing) return;
+    ctcEl._fpRefreshing = true;
+
+    try {
+      ctcEl._fpButtons.forEach(function (btn) {
+        if (!btn || !btn._config || !btn._config.variables) return;
+        var vars = btn._config.variables || {};
+        applyOverrideToButton(
+          btn,
+          vars.primary_entity,
+          vars.members || [],
+          vars.group_entity || '',
+          ctcEl.hass
+        );
+      });
+      if (ctcEl._fpUpdateStyles) ctcEl._fpUpdateStyles();
+    } finally {
+      requestAnimationFrame(function () {
+        ctcEl._fpRefreshing = false;
+      });
+    }
+  }
+
+  function scheduleSoftRefresh(ctcEl, reason) {
+    if (!ctcEl || !ctcEl._fpReady) return;
+    clearTimeout(ctcEl._fpRefreshTimeout);
+    ctcEl._fpRefreshTimeout = setTimeout(function () {
+      forceRefreshButtons(ctcEl, reason);
+    }, SOFT_REFRESH_FOCUS_DELAY_MS);
+  }
+
+  function initRefreshWatchdog(ctcEl) {
+    if (ctcEl._fpRefreshWatchdogInited) return;
+    ctcEl._fpRefreshWatchdogInited = true;
+
+    ctcEl._fpRefreshInterval = setInterval(function () {
+      forceRefreshButtons(ctcEl, 'interval');
+    }, SOFT_REFRESH_INTERVAL_MS);
+
+    ctcEl._fpRefreshVisibilityHandler = function () {
+      if (!document.hidden) scheduleSoftRefresh(ctcEl, 'visibility');
+    };
+    ctcEl._fpRefreshFocusHandler = function () {
+      scheduleSoftRefresh(ctcEl, 'focus');
+    };
+
+    document.addEventListener('visibilitychange', ctcEl._fpRefreshVisibilityHandler, true);
+    window.addEventListener('focus', ctcEl._fpRefreshFocusHandler, true);
+  }
+
   function ensureDocumentStyles() {
     if (!document.querySelector('#fp-overlay-styles')) {
       var docStyle = document.createElement('style');
@@ -963,6 +1017,7 @@ const FLOORPLAN_MODULE_URL = import.meta.url;
       if (this._fpReady) {
         console.info('FLOORPLAN-FIX: cached', this._fpImages.length,
           'image overlays,', this._fpButtons.length, 'buttons — flash disabled');
+        initRefreshWatchdog(this);
         initGroupPopupHandling(this);
         // Initialize config mode features
         initConfigMode(this);
@@ -1025,6 +1080,7 @@ const FLOORPLAN_MODULE_URL = import.meta.url;
       });
 
       updateGroupPopup(hass);
+      initRefreshWatchdog(this);
       initGroupPopupHandling(this);
 
       if (!this._fpConfigInited && this.hass.user && this.hass.user.is_admin) {
