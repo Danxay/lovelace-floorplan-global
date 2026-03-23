@@ -8,15 +8,27 @@ group_point:
   custom_fields:
     ring: >
       [[[
-        const e = states[variables.primary_entity];
-        const state = e?.state;
-        const isActive = state === 'on' || state === 'open' || state === 'opening' || state === 'closing';
-        if (!e || !isActive || !e.attributes.brightness) return '';
-        const pct = Math.round((e.attributes.brightness || 0) / 2.54);
+        const members = variables.members || [];
+        const isActiveState = (id) => {
+          const state = states[id]?.state;
+          if (!state || id.startsWith('script.')) return false;
+          return ['on', 'open', 'opening', 'closing'].includes(state);
+        };
+        const activeEntities = members
+          .map((id) => states[id])
+          .filter((e, idx) => e && isActiveState(members[idx]));
+        const dimmableActive = activeEntities.filter((e) => e.attributes?.brightness != null);
+        if (!dimmableActive.length) return '';
+        const brightness = Math.max(...dimmableActive.map((e) => e.attributes.brightness || 0));
+        const colorSource =
+          activeEntities.find((e) => e.attributes?.hs_color) ||
+          dimmableActive[0] ||
+          states[variables.primary_entity];
+        const pct = Math.round(brightness / 2.54);
         const r = 18.5;
         const c = r * 2 * Math.PI;
         const off = c - (pct / 100) * c;
-        const hs = e.attributes.hs_color;
+        const hs = colorSource?.attributes?.hs_color;
         const col = hs ? 'hsl(' + hs[0] + ',' + Math.min(hs[1] + 20, 100) + '%,55%)' : 'rgb(255,170,50)';
         return '<svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="' + r + '" stroke="' + col + '" stroke-width="2" fill="none" transform="rotate(-90 20 20)" stroke-dasharray="' + c + '" stroke-dashoffset="' + off + '" stroke-linecap="round" opacity="0.9"/></svg>';
       ]]]
@@ -49,17 +61,6 @@ group_point:
       [[[ return variables.group_entity || variables.primary_entity; ]]]
   double_tap_action:
     action: none
-  variables:
-    any_on: >
-      [[[
-        const isActive = (id) => {
-          const state = states[id]?.state;
-          if (!state) return false;
-          if (id.startsWith('script.')) return false;
-          return ['on', 'open', 'opening', 'closing'].includes(state);
-        };
-        return (variables.members || []).some((id) => isActive(id));
-      ]]]
   styles:
     card:
       - width: 34px
@@ -70,7 +71,15 @@ group_point:
       - background: rgba(255, 255, 255, 0.97)
       - box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35)
       - opacity: >
-          [[[ return variables.any_on ? '1' : '0.85'; ]]]
+          [[[
+            const members = variables.members || [];
+            const isActive = (id) => {
+              const state = states[id]?.state;
+              if (!state || id.startsWith('script.')) return false;
+              return ['on', 'open', 'opening', 'closing'].includes(state);
+            };
+            return members.some((id) => isActive(id)) ? '1' : '0.85';
+          ]]]
       - transition: none
       - transform: translateZ(0)
       - overflow: visible
@@ -78,11 +87,24 @@ group_point:
       - width: 50%
       - color: >
           [[[
-            if (!variables.any_on) return 'rgba(60, 60, 65, 0.7)';
-            const e = states[variables.primary_entity];
-            if (e?.attributes?.hs_color) {
-              const h = e.attributes.hs_color[0];
-              const s = e.attributes.hs_color[1];
+            const members = variables.members || [];
+            const isActive = (id) => {
+              const state = states[id]?.state;
+              if (!state || id.startsWith('script.')) return false;
+              return ['on', 'open', 'opening', 'closing'].includes(state);
+            };
+            const activeEntities = members
+              .map((id) => ({ id, entity: states[id] }))
+              .filter(({ id, entity }) => entity && isActive(id));
+            if (!activeEntities.length) return 'rgba(60, 60, 65, 0.7)';
+            const colorSource =
+              activeEntities.find(({ entity }) => entity.attributes?.hs_color)?.entity ||
+              activeEntities.find(({ entity }) => entity.attributes?.brightness != null)?.entity ||
+              states[variables.primary_entity] ||
+              activeEntities[0].entity;
+            if (colorSource?.attributes?.hs_color) {
+              const h = colorSource.attributes.hs_color[0];
+              const s = colorSource.attributes.hs_color[1];
               return 'hsl(' + h + ',' + Math.min(s + 25, 100) + '%,38%)';
             }
             return 'rgb(200, 120, 20)';
