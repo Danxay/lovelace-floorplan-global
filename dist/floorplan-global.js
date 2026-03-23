@@ -1,8 +1,10 @@
-// Floorplan anti-flash fix v10
+// Floorplan anti-flash fix v11
 // v8: patches hass setter + independent cache bootstrap for reliable activation.
 // v9: adds in-widget entity picker — gear button, config mode, popup with searchable dropdown.
 // v10: stores overrides in the shared floorplan_global backend when available, with
 //      fallback to legacy frontend user data for local/dev installs.
+// v11: adds custom group popups for multi-light points while keeping single-entity
+//      points on the standard Home Assistant more-info dialog.
 const FLOORPLAN_MODULE_URL = import.meta.url;
 
 (function () {
@@ -14,6 +16,8 @@ const FLOORPLAN_MODULE_URL = import.meta.url;
   var GLOBAL_GET_OVERRIDES_WS_TYPE = 'floorplan_global/get_overrides';
   var GLOBAL_SET_OVERRIDES_WS_TYPE = 'floorplan_global/set_overrides';
   var WIDGET_SPEC_URL = new URL('widget_spec.json', FLOORPLAN_MODULE_URL).toString();
+  var GROUP_POPUP_HOLD_MS = 420;
+  var groupPopupState = null;
 
   // ─── Utility: shadow DOM traversal ──────────────────────────────────
   function findInShadow(root, selector) {
@@ -157,7 +161,24 @@ const FLOORPLAN_MODULE_URL = import.meta.url;
     '.fp-btn{flex:1;padding:12px 16px;border:none;border-radius:12px;font-size:14px;font-weight:500;cursor:pointer;transition:all .2s cubic-bezier(.4,0,.2,1);letter-spacing:.01em}.fp-btn:active{transform:scale(.97)}' +
     '.fp-btn-primary{background:#4287f5;color:#fff;box-shadow:0 2px 8px rgba(66,135,245,.3)}.fp-btn-primary:hover{filter:brightness(1.1);box-shadow:0 4px 14px rgba(66,135,245,.4)}' +
     '.fp-btn-secondary{background:rgba(255,255,255,.06);color:rgba(255,255,255,.6)}.fp-btn-secondary:hover{background:rgba(255,255,255,.12);color:#fff}' +
-    '.fp-override-badge{position:absolute;top:-2px;right:-2px;width:7px;height:7px;background:#4287f5;border-radius:50%;border:1.5px solid #1c1c1c;pointer-events:none;box-shadow:0 0 4px rgba(66,135,245,.5)}';
+    '.fp-override-badge{position:absolute;top:-2px;right:-2px;width:7px;height:7px;background:#4287f5;border-radius:50%;border:1.5px solid #1c1c1c;pointer-events:none;box-shadow:0 0 4px rgba(66,135,245,.5)}' +
+    '.fp-group-overlay{position:fixed;inset:0;background:rgba(0,0,0,.64);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:10000;display:flex;align-items:center;justify-content:center;padding:20px;animation:fp-fade-in .2s ease-out;font-family:var(--ha-card-header-font-family,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif)}' +
+    '.fp-group-popup{background:var(--dialog-surface-background,#1c1c1c);border-radius:28px;width:min(760px,96vw);max-height:88vh;overflow-y:auto;color:var(--primary-text-color,#fff);box-shadow:0 24px 60px rgba(0,0,0,.45),0 0 0 1px rgba(255,255,255,.06);animation:fp-popup-in .22s cubic-bezier(.4,0,.2,1)}' +
+    '.fp-group-popup::-webkit-scrollbar{width:4px}.fp-group-popup::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px}.fp-group-popup::-webkit-scrollbar-track{background:transparent}' +
+    '.fp-group-popup-header{display:flex;align-items:center;justify-content:space-between;padding:18px 22px 14px;border-bottom:1px solid rgba(255,255,255,.06)}' +
+    '.fp-group-popup-title-wrap{display:flex;flex-direction:column;gap:4px;min-width:0}' +
+    '.fp-group-popup-title{font-size:18px;font-weight:500;letter-spacing:-.01em;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}' +
+    '.fp-group-popup-subtitle{font-size:12px;color:rgba(255,255,255,.46)}' +
+    '.fp-group-popup-close{background:rgba(255,255,255,.06);border:none;cursor:pointer;color:rgba(255,255,255,.56);width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;transition:all .15s}.fp-group-popup-close:hover{background:rgba(255,255,255,.12);color:#fff}' +
+    '.fp-group-popup-body{padding:18px 22px 22px;display:flex;flex-direction:column;gap:16px}' +
+    '.fp-group-section{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:22px;overflow:hidden}' +
+    '.fp-group-section-header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px 12px}' +
+    '.fp-group-section-title{font-size:15px;font-weight:500;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}' +
+    '.fp-group-section-meta{font-size:12px;color:rgba(255,255,255,.42);font-family:var(--code-font-family,"SF Mono","Fira Code",monospace)}' +
+    '.fp-group-section-content{padding:0 8px 8px}.fp-group-section-content > *{display:block}' +
+    '.fp-group-section-content more-info-light,.fp-group-section-content more-info-content{display:block}' +
+    '.fp-group-fallback{padding:0 14px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;color:rgba(255,255,255,.72)}' +
+    '.fp-group-fallback button{background:#4287f5;color:#fff;border:none;border-radius:12px;padding:10px 14px;cursor:pointer;font-size:13px;font-weight:500}';
 
   // ─── SVG icons ──────────────────────────────────────────────────────
   var GEAR_SVG = '<svg viewBox="0 0 24 24"><path d="M12 15.5A3.5 3.5 0 0 1 8.5 12 3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5 3.5 3.5 0 0 1-3.5 3.5m7.43-2.53c.04-.32.07-.64.07-.97s-.03-.66-.07-1l2.11-1.63c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64L4.57 11c-.04.34-.07.67-.07 1s.03.65.07.97l-2.11 1.66c-.19.15-.25.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1.01c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.58 1.69-.98l2.49 1.01c.22.08.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64L19.43 12.97Z"/></svg>';
@@ -553,7 +574,13 @@ const FLOORPLAN_MODULE_URL = import.meta.url;
 
       // Build minimal unmerged config — only per-instance fields + template reference.
       // button-card will merge the template definition (group_point) and get fresh [[[...]]]
-      var newVars = { primary_entity: primary, members: members };
+      var prevVars = btn._config.variables || {};
+      var newVars = {
+        primary_entity: primary,
+        members: members,
+        point_label: prevVars.point_label || '',
+        use_group_popup: prevVars.use_group_popup || false
+      };
       if (group) newVars.group_entity = group;
 
       var newConfig = {
@@ -597,6 +624,259 @@ const FLOORPLAN_MODULE_URL = import.meta.url;
     } else if (!show && existing) {
       existing.remove();
     }
+  }
+
+  function ensureDocumentStyles() {
+    if (!document.querySelector('#fp-overlay-styles')) {
+      var docStyle = document.createElement('style');
+      docStyle.id = 'fp-overlay-styles';
+      docStyle.textContent = FP_STYLES;
+      document.head.appendChild(docStyle);
+    }
+  }
+
+  function isLightGroupButton(btn) {
+    var vars = btn && btn._config && btn._config.variables ? btn._config.variables : {};
+    var members = vars.members || [];
+    return Boolean(vars.use_group_popup) &&
+      members.length > 1 &&
+      members.every(function (id) { return typeof id === 'string' && id.indexOf('light.') === 0; });
+  }
+
+  function getGroupPopupTitle(btn, hass) {
+    var vars = btn && btn._config && btn._config.variables ? btn._config.variables : {};
+    var groupEntity = vars.group_entity;
+    var pointLabel = vars.point_label;
+    if (groupEntity && hass && hass.states[groupEntity] && hass.states[groupEntity].attributes &&
+      hass.states[groupEntity].attributes.friendly_name) {
+      return hass.states[groupEntity].attributes.friendly_name;
+    }
+    if (pointLabel) return pointLabel;
+    if (vars.primary_entity && hass && hass.states[vars.primary_entity] &&
+      hass.states[vars.primary_entity].attributes &&
+      hass.states[vars.primary_entity].attributes.friendly_name) {
+      return hass.states[vars.primary_entity].attributes.friendly_name;
+    }
+    return 'Light Group';
+  }
+
+  function closeGroupPopup() {
+    if (!groupPopupState) return;
+    if (groupPopupState.keyHandler) {
+      document.removeEventListener('keydown', groupPopupState.keyHandler, true);
+    }
+    if (groupPopupState.overlay && groupPopupState.overlay.parentNode) {
+      groupPopupState.overlay.parentNode.removeChild(groupPopupState.overlay);
+    }
+    groupPopupState = null;
+  }
+
+  function openNativeMoreInfo(entityId) {
+    if (!entityId) return;
+    var event = new CustomEvent('hass-more-info', {
+      bubbles: true,
+      composed: true,
+      detail: { entityId: entityId }
+    });
+    var root = document.querySelector('home-assistant') || document.body;
+    root.dispatchEvent(event);
+  }
+
+  function createGroupLightControl(entityId, hass) {
+    var section = document.createElement('section');
+    section.className = 'fp-group-section';
+
+    var header = document.createElement('div');
+    header.className = 'fp-group-section-header';
+
+    var titleWrap = document.createElement('div');
+    var title = document.createElement('div');
+    title.className = 'fp-group-section-title';
+    title.textContent = entityId;
+    var meta = document.createElement('div');
+    meta.className = 'fp-group-section-meta';
+    meta.textContent = entityId;
+    titleWrap.appendChild(title);
+    titleWrap.appendChild(meta);
+
+    var openBtn = document.createElement('button');
+    openBtn.className = 'fp-popup-close';
+    openBtn.innerHTML = '&rsaquo;';
+    openBtn.title = 'Open full controls';
+    openBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      closeGroupPopup();
+      openNativeMoreInfo(entityId);
+    });
+
+    header.appendChild(titleWrap);
+    header.appendChild(openBtn);
+    section.appendChild(header);
+
+    var contentWrap = document.createElement('div');
+    contentWrap.className = 'fp-group-section-content';
+    section.appendChild(contentWrap);
+
+    var contentEl = null;
+    var tagName = 'more-info-light';
+    if (customElements.get(tagName)) {
+      contentEl = document.createElement(tagName);
+      contentWrap.appendChild(contentEl);
+    } else {
+      var fallback = document.createElement('div');
+      fallback.className = 'fp-group-fallback';
+      fallback.innerHTML = '<span>Individual controls are not available yet.</span>';
+      var fallbackBtn = document.createElement('button');
+      fallbackBtn.textContent = 'Open';
+      fallbackBtn.addEventListener('click', function () {
+        closeGroupPopup();
+        openNativeMoreInfo(entityId);
+      });
+      fallback.appendChild(fallbackBtn);
+      contentWrap.appendChild(fallback);
+    }
+
+    return {
+      entityId: entityId,
+      section: section,
+      titleEl: title,
+      metaEl: meta,
+      contentEl: contentEl
+    };
+  }
+
+  function updateGroupPopup(hass) {
+    if (!groupPopupState || !hass) return;
+    groupPopupState.memberViews.forEach(function (view) {
+      var stateObj = hass.states[view.entityId];
+      view.titleEl.textContent = (stateObj && stateObj.attributes && stateObj.attributes.friendly_name) || view.entityId;
+      view.metaEl.textContent = view.entityId;
+      if (view.contentEl) {
+        view.contentEl.hass = hass;
+        view.contentEl.stateObj = stateObj;
+      }
+    });
+  }
+
+  function showGroupPopup(btn, hass) {
+    if (!hass || !isLightGroupButton(btn)) return;
+    closeGroupPopup();
+    ensureDocumentStyles();
+
+    var vars = btn._config.variables || {};
+    var members = (vars.members || []).filter(function (id) { return typeof id === 'string' && id.indexOf('light.') === 0; });
+    if (!members.length) return;
+
+    var overlay = document.createElement('div');
+    overlay.className = 'fp-group-overlay';
+
+    var popup = document.createElement('div');
+    popup.className = 'fp-group-popup';
+    popup.addEventListener('click', function (e) { e.stopPropagation(); });
+    popup.addEventListener('mousedown', function (e) { e.stopPropagation(); });
+
+    var header = document.createElement('div');
+    header.className = 'fp-group-popup-header';
+
+    var titleWrap = document.createElement('div');
+    titleWrap.className = 'fp-group-popup-title-wrap';
+    var title = document.createElement('div');
+    title.className = 'fp-group-popup-title';
+    title.textContent = getGroupPopupTitle(btn, hass);
+    var subtitle = document.createElement('div');
+    subtitle.className = 'fp-group-popup-subtitle';
+    subtitle.textContent = 'Manage each light in this group individually';
+    titleWrap.appendChild(title);
+    titleWrap.appendChild(subtitle);
+
+    var closeBtn = document.createElement('button');
+    closeBtn.className = 'fp-group-popup-close';
+    closeBtn.innerHTML = '&times;';
+    closeBtn.addEventListener('click', function () {
+      closeGroupPopup();
+    });
+
+    header.appendChild(titleWrap);
+    header.appendChild(closeBtn);
+    popup.appendChild(header);
+
+    var body = document.createElement('div');
+    body.className = 'fp-group-popup-body';
+    var memberViews = members.map(function (entityId) {
+      var view = createGroupLightControl(entityId, hass);
+      body.appendChild(view.section);
+      return view;
+    });
+    popup.appendChild(body);
+
+    overlay.appendChild(popup);
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) closeGroupPopup();
+    });
+
+    var keyHandler = function (e) {
+      if (e.key === 'Escape') closeGroupPopup();
+    };
+    document.addEventListener('keydown', keyHandler, true);
+    document.body.appendChild(overlay);
+
+    groupPopupState = {
+      overlay: overlay,
+      keyHandler: keyHandler,
+      memberViews: memberViews
+    };
+    updateGroupPopup(hass);
+  }
+
+  function initGroupPopupHandling(ctcEl) {
+    if (ctcEl._fpGroupPopupInited) return;
+    ctcEl._fpGroupPopupInited = true;
+    ensureDocumentStyles();
+
+    ctcEl._fpButtons.forEach(function (btn) {
+      if (btn._fpGroupPopupBound) return;
+      btn._fpGroupPopupBound = true;
+
+      var holdTimer = null;
+      var suppressClick = false;
+
+      var clearHoldTimer = function () {
+        if (holdTimer) {
+          clearTimeout(holdTimer);
+          holdTimer = null;
+        }
+      };
+
+      var startHoldTimer = function (e) {
+        if (ctcEl._fpConfigMode || !isLightGroupButton(btn)) return;
+        if (e.type === 'mousedown' && e.button !== 0) return;
+        clearHoldTimer();
+        holdTimer = setTimeout(function () {
+          holdTimer = null;
+          suppressClick = true;
+          showGroupPopup(btn, ctcEl.hass);
+        }, GROUP_POPUP_HOLD_MS);
+      };
+
+      btn.addEventListener('pointerdown', startHoldTimer, true);
+      btn.addEventListener('pointerup', clearHoldTimer, true);
+      btn.addEventListener('pointerleave', clearHoldTimer, true);
+      btn.addEventListener('pointercancel', clearHoldTimer, true);
+      btn.addEventListener('touchstart', startHoldTimer, true);
+      btn.addEventListener('touchend', clearHoldTimer, true);
+      btn.addEventListener('touchcancel', clearHoldTimer, true);
+      btn.addEventListener('mousedown', startHoldTimer, true);
+      btn.addEventListener('mouseup', clearHoldTimer, true);
+
+      btn.addEventListener('click', function (e) {
+        if (!suppressClick) return;
+        suppressClick = false;
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+      }, true);
+    });
   }
 
   // ─── Core: patch config-template-card ───────────────────────────────
@@ -676,6 +956,7 @@ const FLOORPLAN_MODULE_URL = import.meta.url;
       if (this._fpReady) {
         console.info('FLOORPLAN-FIX: cached', this._fpImages.length,
           'image overlays,', this._fpButtons.length, 'buttons — flash disabled');
+        initGroupPopupHandling(this);
         // Initialize config mode features
         initConfigMode(this);
         // Load and apply overrides
@@ -736,6 +1017,9 @@ const FLOORPLAN_MODULE_URL = import.meta.url;
         btn.hass = hass;
       });
 
+      updateGroupPopup(hass);
+      initGroupPopupHandling(this);
+
       if (!this._fpConfigInited && this.hass.user && this.hass.user.is_admin) {
         initConfigMode(this);
       }
@@ -777,7 +1061,7 @@ const FLOORPLAN_MODULE_URL = import.meta.url;
 
     proto._fpPatched = true;
     console.info(
-      '%c FLOORPLAN-FIX %c v9 — zero-flash + entity picker',
+      '%c FLOORPLAN-FIX %c v11 — zero-flash + entity picker + group popup',
       'color: orange; font-weight: bold;', ''
     );
     return true;
@@ -911,6 +1195,7 @@ const FLOORPLAN_MODULE_URL = import.meta.url;
     if (styleView() || ++sv > 30) clearInterval(svIv);
   }, 1000);
   window.addEventListener('location-changed', function () {
+    closeGroupPopup();
     setTimeout(styleView, 2000);
   });
 })();
