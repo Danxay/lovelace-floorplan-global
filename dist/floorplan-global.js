@@ -660,6 +660,25 @@ const FLOORPLAN_MODULE_URL = import.meta.url;
     }
   }
 
+  function applyOverlayPaint(item, filter, opacity) {
+    item.el.style.opacity = opacity;
+    item.el.style.filter = filter;
+
+    if (!item.img) return;
+
+    item.img.style.opacity = opacity;
+    item.img.style.filter = filter;
+    item.img.style.webkitFilter = filter;
+    item.img.style.willChange = 'opacity, filter';
+
+    if (item._fpLastFilter !== filter || item._fpLastOpacity !== opacity) {
+      item._fpPaintToggle = !item._fpPaintToggle;
+      item.img.style.transform = item._fpPaintToggle ? 'translateZ(0)' : 'translate3d(0,0,0)';
+      item._fpLastFilter = filter;
+      item._fpLastOpacity = opacity;
+    }
+  }
+
   function scheduleSoftRefresh(ctcEl, reason) {
     if (!ctcEl || !ctcEl._fpReady) return;
     clearTimeout(ctcEl._fpRefreshTimeout);
@@ -1070,8 +1089,7 @@ const FLOORPLAN_MODULE_URL = import.meta.url;
           filter = 'saturate(0.35)';
         }
 
-        el.style.opacity = opacity;
-        el.style.filter = filter;
+        applyOverlayPaint(item, filter, opacity);
       });
 
       var hass = this.hass;
